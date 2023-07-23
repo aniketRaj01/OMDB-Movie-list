@@ -1,4 +1,4 @@
-// API Key obtained from OMDB API
+
 const apiKey = "2630f0b6";
 let reviews = {
   "tt11783766" : {
@@ -11,8 +11,7 @@ let reviews = {
 
 let movieReviews = JSON.parse(localStorage.getItem("movieReviews"));
 if(movieReviews) reviews = movieReviews;
-console.log(reviews)
-// Fetch movie data from OMDB API
+
 async function fetchMovies(searchQuery, page = 1) {
     const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${searchQuery}&page=${page}`;
 
@@ -26,13 +25,10 @@ async function fetchMovies(searchQuery, page = 1) {
     }
 }
 
-// Function to display movie list
+
 function displayMovies(movies) {
-    // Clear previous movie list
     const movieListContainer = document.getElementById("movieList");
     movieListContainer.innerHTML = "";
-
-    // Loop through each movie and display its poster and name
     movies.forEach(movie => {
         const movieElement = document.createElement("div");
         movieElement.classList.add("movie");
@@ -53,7 +49,6 @@ function displayMovies(movies) {
         titleElem.textContent = title;
         cont.appendChild(titleElem);
         movieElement.appendChild(cont)
-        // Add a click event listener to display movie details
         cont.addEventListener("click", () => {
             displayMovieDetails(movie.imdbID);
         });
@@ -70,7 +65,7 @@ function saveReview(event){
     localStorage.setItem("movieReviews", JSON.stringify(reviews));
 }
 
-// Function to display movie details
+
 async function displayMovieDetails(imdbID) {
     const url = `https://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}`;
     
@@ -122,7 +117,6 @@ async function displayMovieDetails(imdbID) {
     }
 }
 
-// Function to handle pagination
 function setupPagination(totalResults, currentPage) {
     const paginationContainer = document.getElementById("pagination");
     paginationContainer.innerHTML = "";
@@ -130,10 +124,10 @@ function setupPagination(totalResults, currentPage) {
     const totalPages = Math.ceil(totalResults / 10);
 
     if (totalPages <= 1) {
-        return; // No need for pagination if there is only one page
+        return; 
     }
 
-    // Add Previous button if not on the first page
+
     if (currentPage > 1) {
         const prevButton = document.createElement("button");
         prevButton.textContent = "Previous";
@@ -143,7 +137,7 @@ function setupPagination(totalResults, currentPage) {
         paginationContainer.appendChild(prevButton);
     }
 
-    // Add page numbers
+
     for (let page = 1; page <= totalPages; page++) {
         const pageButton = document.createElement("button");
         pageButton.textContent = page;
@@ -153,7 +147,7 @@ function setupPagination(totalResults, currentPage) {
         paginationContainer.appendChild(pageButton);
     }
 
-    // Add Next button if not on the last page
+
     if (currentPage < totalPages) {
         const nextButton = document.createElement("button");
         nextButton.textContent = "Next";
@@ -164,7 +158,6 @@ function setupPagination(totalResults, currentPage) {
     }
 }
 
-// Function to fetch and display movies for a specific page
 async function displayPage(page) {
     const searchQuery = document.getElementById("searchInput").value;
     const data = await fetchMovies(searchQuery, page);
@@ -176,14 +169,12 @@ async function displayPage(page) {
     }
 }
 
-// Initial setup to fetch movies and display the first page
 displayPage(1);
 
-// Add event listener for search input to fetch and display movies on typing
 const searchClick = document.getElementById("search");
 document.getElementById("searchInput").addEventListener("change", ()=>{
     displayPage(1);
 })
 searchClick.addEventListener("click", () => {
-    displayPage(1); // Reset pagination and fetch the first page of search results
+    displayPage(1); 
 });
