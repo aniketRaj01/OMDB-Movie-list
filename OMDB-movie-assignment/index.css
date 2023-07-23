@@ -2,7 +2,9 @@ header{
     align-items: center;
     text-align: center;
 }
-
+body{
+    background-color: #e7f6fa;
+}
 #searchInput{
     height: 20px;
     width: 500px;
